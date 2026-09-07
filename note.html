@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Notes — Artifact</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* overrides for notes page */
+    body{ background:linear-gradient(#faf6ef,#efe9d6); color:var(--accent); padding:1.25rem; }
+    .note-wrap{ max-width:960px; margin:0 auto; background:rgba(255,255,255,0.95); border-radius:10px; padding:1rem; box-shadow:0 12px 30px rgba(30,20,10,0.08); }
+    .note-header{ display:flex; gap:1rem; align-items:center; }
+    .note-header img{ width:220px; height:140px; object-fit:cover; border-radius:8px; box-shadow:0 6px 18px rgba(20,10,0,0.06); }
+    .note-controls{ margin-left:auto; display:flex; gap:0.5rem; align-items:center; }
+    .editor{ margin-top:1rem; min-height:320px; border-radius:8px; padding:1rem; background: #fffaf0; border:1px dashed rgba(107,79,42,0.06); }
+    .editor[contenteditable="true"]{ outline:none }
+    .meta{ color:var(--muted); font-size:0.9rem; margin-top:0.4rem; }
+  </style>
+</head>
+<body>
+  <a href="index.html" class="btn secondary" style="margin-bottom:1rem; display:inline-block;">← Back to Gallery</a>
+
+  <main class="note-wrap" id="noteWrap" role="main">
+    <div class="note-header">
+      <img id="noteImage" src="" alt="Artifact image" />
+      <div>
+        <h1 id="noteTitle">Artifact Notes</h1>
+        <div class="meta" id="noteSubtitle">Your notes are saved locally in this browser.</div>
+      </div>
+
+      <div class="note-controls" role="toolbar" aria-label="Note controls">
+        <button id="downloadBtn" class="btn">Download</button>
+        <button id="clearBtn" class="btn secondary">Clear</button>
+      </div>
+    </div>
+
+    <div id="editor" class="editor" contenteditable="true" aria-label="Write your paragraphs here. Use Enter for new paragraphs.">
+      <p>Type your paragraphs about this artifact here. Your text will be saved automatically in your browser.</p>
+    </div>
+  </main>
+
+  <script>
+    // Load note for id from query string and map to images (2..5)
+    (function(){
+      const params = new URLSearchParams(location.search);
+      const id = params.get('id') || '2';
+
+      const items = {
+        '2': { title: 'Interior View', img: 'images/image2.jpg' },
+        '3': { title: 'Stone Arch', img: 'images/image3.jpg' },
+        '4': { title: 'Exhibit Hall', img: 'images/image4.jpg' },
+        '5': { title: 'Museum Visitors', img: 'images/image5.jpg' }
+      };
+
+      const item = items[id] || items['2'];
+      document.getElementById('noteImage').src = item.img;
+      document.getElementById('noteTitle').textContent = item.title;
+      const storageKey = 'artifact-notes-' + id;
+
+      const editor = document.getElementById('editor');
+      // load previously-saved
+      const saved = localStorage.getItem(storageKey);
+      if(saved) editor.innerHTML = saved;
+
+      // autosave with debounce
+      let t = null;
+      function scheduleSave(){
+        if(t) clearTimeout(t);
+        t = setTimeout(()=> {
+          localStorage.setItem(storageKey, editor.innerHTML);
+          const sub = document.getElementById('noteSubtitle');
+          sub.textContent = `Saved • ${new Date().toLocaleTimeString()}`;
+          setTimeout(()=> sub.textContent = 'Your notes are saved locally in this browser.', 1100);
+        }, 700);
+      }
+      editor.addEventListener('input', scheduleSave);
+
+      document.getElementById('downloadBtn').addEventListener('click', function(){
+        const text = editor.innerText;
+        const blob = new Blob([text], {type:'text/plain;charset=utf-8'});
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = (item.title.replace(/\s+/g,'_') || 'notes') + '.txt';
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        URL.revokeObjectURL(url);
+      });
+
+      document.getElementById('clearBtn').addEventListener('click', function(){
+        if(confirm('Clear saved notes for this artifact? This cannot be undone.')){
+          editor.innerHTML = '<p></p>';
+          localStorage.removeItem(storageKey);
+        }
+      });
+
+      // ctrl/cmd+S to download
+      window.addEventListener('keydown', function(e){
+        if((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 's'){
+          e.preventDefault();
+          document.getElementById('downloadBtn').click();
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

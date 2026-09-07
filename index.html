@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Rizal Shrine — Gallery</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <h1>Rizal Shrine — Historical Gallery</h1>
+    <p class="subtitle">Explore the shrine — click images to visit linked websites or open Notes to type your paragraphs.</p>
+  </header>
+
+  <main class="content">
+    <section class="hero" role="region" aria-label="Main description">
+      <div class="hero-inner">
+        <h2>Rizal Shrine</h2>
+        <p class="description">
+          The picture shows the Rizal Shrine, a historical site dedicated to Dr. José Rizal, the Philippine national hero. The building features traditional Filipino-Spanish architecture, with a stone lower floor, wooden windows, and a tiled roof. It represents an important part of Philippine history because places like this help preserve the memory, life, and contributions of Rizal to the country. The Philippine flags displayed around the shrine also symbolize Filipino patriotism and love for the nation.
+        </p>
+      </div>
+    </section>
+
+    <section class="gallery" aria-label="Image gallery">
+      <!-- For each card: data-id (1-5), data-link is the external URL. -->
+      <div class="card" data-id="2" data-link="https://example.com/page2" tabindex="0" role="link" aria-label="Image 2 — click to open external website or open notes">
+        <div class="card-inner">
+          <img src="images/image2.jpg" alt="Artifact view 2" />
+          <div class="card-caption">
+            <strong>Interior View</strong>
+            <div class="card-actions">
+              <button class="btn notes-btn" data-id="2">Notes</button>
+              <button class="btn open-btn" data-link="https://example.com/page2">Open Site</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" data-id="3" data-link="https://example.com/page3" tabindex="0" role="link" aria-label="Image 3 — click to open external website or open notes">
+        <div class="card-inner">
+          <img src="images/image3.jpg" alt="Artifact view 3" />
+          <div class="card-caption">
+            <strong>Stone Arch</strong>
+            <div class="card-actions">
+              <button class="btn notes-btn" data-id="3">Notes</button>
+              <button class="btn open-btn" data-link="https://example.com/page3">Open Site</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" data-id="4" data-link="https://example.com/page4" tabindex="0" role="link" aria-label="Image 4 — click to open external website or open notes">
+        <div class="card-inner">
+          <img src="images/image4.jpg" alt="Artifact view 4" />
+          <div class="card-caption">
+            <strong>Exhibit Hall</strong>
+            <div class="card-actions">
+              <button class="btn notes-btn" data-id="4">Notes</button>
+              <button class="btn open-btn" data-link="https://example.com/page4">Open Site</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" data-id="5" data-link="https://example.com/page5" tabindex="0" role="link" aria-label="Image 5 — click to open external website or open notes">
+        <div class="card-inner">
+          <img src="images/image5.jpg" alt="Artifact view 5" />
+          <div class="card-caption">
+            <strong>Museum Visitors</strong>
+            <div class="card-actions">
+              <button class="btn notes-btn" data-id="5">Notes</button>
+              <button class="btn open-btn" data-link="https://example.com/page5">Open Site</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="site-footer">
+      <small>Tip: Use the "Notes" button on any card to type and auto-save paragraphs for that image. Use "Open Site" to open the configured external website in a new tab.</small>
+    </footer>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
